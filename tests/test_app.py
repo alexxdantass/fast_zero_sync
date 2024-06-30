@@ -99,3 +99,22 @@ def test_delete_user_not_found(client):
 
     # Verifica se o cliente 999 não foi encontrado.
     assert response.status_code == HTTPStatus.NOT_FOUND
+
+
+def test_get_user(client):
+    response = client.post(
+        '/users/',
+        json={
+            'username': 'testusername',
+            'password': 'password',
+            'email': 'test@test.com',
+        },
+    )
+    response = client.get('users/1')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {
+        'id': 3,
+        'username': 'testusername',
+        'email': 'test@test.com',
+    }
